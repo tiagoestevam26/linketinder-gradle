@@ -1,0 +1,32 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.21' // Última versão estável
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    implementation 'org.postgresql:postgresql:42.6.0'
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+application {
+    mainClass = 'org.example.Main' // Troque pelo seu package principal
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaExec) {
+    standardInput = System.in
+}
