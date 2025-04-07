@@ -20,7 +20,6 @@ class Job {
         requiredCompetences << competence
     }
 
-
     @Override
     public String toString() {
         return String.format(

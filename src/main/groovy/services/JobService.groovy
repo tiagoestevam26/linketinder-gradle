@@ -1,16 +1,18 @@
 package services
 
+import database.JobDAO
 import models.Job
 
-class JobManager {
+class JobService {
     List<Job> jobs = []
 
     List<Job> getJobs() {
         return jobs
     }
 
-    void addJob(Job job) {
+    void addJob(Job job, int id) {
         jobs << job
+        JobDAO.salvar(job, id)
     }
 
     void listJobs() {

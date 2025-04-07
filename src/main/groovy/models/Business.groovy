@@ -14,24 +14,8 @@ class Business implements Person{
         this.password = password
     }
 
-
-
     void addJob(Job job) {
         openJobs << job
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Business{" +
-                "CNPJ='" + CNPJ + '\'' +
-                ", models_Person__name='" + models_Person__name + '\'' +
-                ", models_Person__email='" + models_Person__email + '\'' +
-                ", models_Person__country='" + models_Person__country + '\'' +
-                ", models_Person__cep='" + models_Person__cep + '\'' +
-                ", models_Person__description='" + models_Person__description + '\'' +
-                ", models_Person__password='" + models_Person__password + '\'' +
-                '}';
-    }
 }

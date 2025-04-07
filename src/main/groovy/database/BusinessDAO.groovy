@@ -1,10 +1,10 @@
 package database
 
-import database.DatabaseConnection
 import models.Business
 import java.sql.*
 
 class BusinessDAO {
+
     static void salvar(Business business) throws SQLException {
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("INSERT INTO empresas (nome, email, cnpj, pais, cep, descricao, senha) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
@@ -46,7 +46,7 @@ class BusinessDAO {
             stmt.setString(1, cnpj);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt("id"); // Retorna o ID da empresa
+                return rs.getInt("id");
             }
         }
         throw new SQLException("Empresa não encontrada para o CNPJ: " + cnpj);
@@ -73,33 +73,12 @@ class BusinessDAO {
         return null; // Retorna null caso não encontre
     }
 
-    static void editar(String cnpj, Business empresaAtualizada) throws SQLException {
-        String sql = "UPDATE empresas SET nome = ?, email = ?, pais = ?, cep = ?, descricao = ?, senha = ? WHERE cnpj = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, empresaAtualizada.getName());
-            stmt.setString(2, empresaAtualizada.getEmail());
-            stmt.setString(3, empresaAtualizada.getCountry());
-            stmt.setString(4, empresaAtualizada.getCep());
-            stmt.setString(5, empresaAtualizada.getDescription());
-            stmt.setString(6, empresaAtualizada.getPassword());
-            stmt.setString(7, cnpj);
-
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Nenhuma empresa foi atualizada. CNPJ pode estar incorreto.");
-            }
-        }
-    }
-
     static void deletar(String cnpj) throws SQLException {
         String sqlVagas = "DELETE FROM vagas WHERE empresa_id = (SELECT id FROM empresas WHERE cnpj = ?)";
         String sqlEmpresa = "DELETE FROM empresas WHERE cnpj = ?";
 
         try (Connection connection = DatabaseConnection.getConnection()) {
-            connection.setAutoCommit(false); // Inicia a transação
-
+            connection.setAutoCommit(false);
             try (PreparedStatement stmtVagas = connection.prepareStatement(sqlVagas)) {
                 stmtVagas.setString(1, cnpj);
                 stmtVagas.executeUpdate();
@@ -110,12 +89,10 @@ class BusinessDAO {
                 stmtEmpresa.executeUpdate();
             }
 
-            connection.commit(); // Confirma a transação
+            connection.commit();
         } catch (SQLException e) {
             throw e;
         }
     }
-
-
 
 }

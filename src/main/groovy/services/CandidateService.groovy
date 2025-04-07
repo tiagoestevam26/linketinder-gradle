@@ -3,7 +3,7 @@ package services
 import database.CandidateDAO
 import models.Candidate
 
-class CandidatesManager {
+class CandidatesService {
 
     void listCandidates(){
         CandidateDAO.listarTodos().each { println it }

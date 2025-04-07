@@ -1,13 +1,10 @@
 package org.example
 
-import database.BusinessDAO
-import database.CandidateDAO
-import models.Candidate
-import services.Menu
+import View.MainMenu
 
 static void main(String[] args) {
 
-    Menu menu = new Menu()
+    MainMenu menu = new  MainMenu()
     menu.exibirMenu()
 
 }

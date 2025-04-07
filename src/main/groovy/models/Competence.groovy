@@ -6,5 +6,4 @@ class Competence {
         this.name = name;
     }
 
-
 }

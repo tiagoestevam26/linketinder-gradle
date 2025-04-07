@@ -1,12 +1,11 @@
 package database
 
-import database.DatabaseConnection
-import models.Business
 import models.Job
 
 import java.sql.*
 
 class JobDAO {
+
     static void salvar(Job job, int empresaId) throws SQLException {
         String sql = "INSERT INTO vagas (empresa_id, nome, descricao, local) VALUES (?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -37,24 +36,6 @@ class JobDAO {
         return jobs;
     }
 
-    static void editar(int id, Job vagaAtualizada) throws SQLException {
-        String sql = "UPDATE vagas SET nome = ?, descricao = ?, local = ?, empresa_id = ? WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, vagaAtualizada.getTitle());
-            stmt.setString(2, vagaAtualizada.getDescription());
-            stmt.setString(3, vagaAtualizada.getLocation());
-            stmt.setInt(4, vagaAtualizada.getBusiness().getId());
-            stmt.setInt(5, id);
-
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Nenhuma vaga foi atualizada. ID pode estar incorreto.");
-            }
-        }
-    }
-
     static int findIdByName(String jobName) throws SQLException {
         String sql = "SELECT id FROM vagas WHERE nome = ?";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -64,12 +45,11 @@ class JobDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("id"); // Retorna o ID da vaga
+                return rs.getInt("id");
             }
         }
         throw new SQLException("Vaga não encontrada para o nome: " + jobName);
     }
-
 
     static void deletar(int id) throws SQLException {
         String sql = "DELETE FROM vagas WHERE id = ?";

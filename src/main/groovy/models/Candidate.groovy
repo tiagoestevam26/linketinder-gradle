@@ -21,7 +21,6 @@ class Candidate implements Person{
         competences << comp
     }
 
-
     @Override
     public String toString() {
         return String.format(
