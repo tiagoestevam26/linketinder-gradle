@@ -10,10 +10,4 @@ class BusinessService {
         BusinessDAO.salvar(buss)
     }
 
-    void listBusinesses(){
-        businesses.each {it->
-            BusinessDAO.listarTodos().each { println it }
-        }
-    }
-
 }

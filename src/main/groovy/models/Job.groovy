@@ -12,10 +12,6 @@ class Job {
         this.company = company
     }
 
-    void listRequiredCompetences() {
-        requiredCompetences.each { println it.getName() }
-    }
-
     void addRequiredCompetence(Competence competence) {
         requiredCompetences << competence
     }
