@@ -6,7 +6,7 @@ import models.Candidate
 class CandidatesService {
 
     void addCandidato(Candidate candidato) {
-        CandidateDAO.salvar(candidato)
+        CandidateDAO.getInstance().salvar(candidato)
     }
 
 }

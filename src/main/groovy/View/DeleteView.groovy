@@ -21,22 +21,22 @@ class DeleteView {
             case "1":
                 print "Digite o CPF: "
                 String cpf = scanner.nextLine()
-                CandidateDAO.deletar(cpf)
+                CandidateDAO.getInstance().deletar(cpf)
                 break
             case "2":
                 print "Digite o CNPJ: "
                 String cnpj = scanner.nextLine()
-                BusinessDAO.deletar(cnpj)
+                BusinessDAO.getInstance().deletar(cnpj)
                 break
             case "3":
                 print "Digite o nome da vaga: "
                 String nome = scanner.nextLine()
-                JobDAO.deletar(JobDAO.findIdByName(nome))
+                JobDAO.getInstance().deletar(JobDAO.findIdByName(nome))
                 break
             case "4":
                 print "Digite o nome da competência: "
                 String comp = scanner.nextLine()
-                CompetenceDAO.deletar(CompetenceDAO.findIdByName(comp))
+                CompetenceDAO.getInstance().deletar(CompetenceDAO.findIdByName(comp))
                 break
             default:
                 println "Opção inválida, tente novamente."

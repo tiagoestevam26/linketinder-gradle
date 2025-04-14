@@ -30,7 +30,7 @@ class AddJobView {
             if (comp.isEmpty()) break
             Competence competence = new Competence(comp)
             vaga.addRequiredCompetence(competence)
-            CompetenceDAO.salvar(competence)
+            CompetenceDAO.getInstance().salvar(competence)
 
         }
 

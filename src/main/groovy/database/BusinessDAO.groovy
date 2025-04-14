@@ -1,12 +1,21 @@
 package database
 
 import models.Business
+
 import java.sql.*
 
-class BusinessDAO {
+class BusinessDAO{
 
-    static void salvar(Business business) throws SQLException {
-        try (Connection connection = DatabaseConnection.getConnection();
+    private static final BusinessDAO instance = new BusinessDAO()
+
+    private BusinessDAO() {} // Construtor privado
+
+    static BusinessDAO getInstance() {
+        return instance
+    }
+
+   void salvar(Business business) throws SQLException {
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement("INSERT INTO empresas (nome, email, cnpj, pais, cep, descricao, senha) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
             stmt.setString(1, business.getName());
             stmt.setString(2, business.getEmail());
@@ -19,9 +28,9 @@ class BusinessDAO {
         }
     }
 
-    static List<Business> listarTodos() throws SQLException {
+    List<Business> listarTodos() throws SQLException {
         List<Business> businesses = new ArrayList<>();
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM empresas")) {
             while (rs.next()) {
@@ -41,7 +50,7 @@ class BusinessDAO {
 
     static int findIdByCNPJ(String cnpj) throws SQLException {
         String sql = "SELECT id FROM empresas WHERE cnpj = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cnpj);
             ResultSet rs = stmt.executeQuery();
@@ -54,7 +63,7 @@ class BusinessDAO {
 
     static Business findById(int id) throws SQLException {
         String sql = "SELECT * FROM empresas WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -73,11 +82,11 @@ class BusinessDAO {
         return null; // Retorna null caso não encontre
     }
 
-    static void deletar(String cnpj) throws SQLException {
+    void deletar(String cnpj) throws SQLException {
         String sqlVagas = "DELETE FROM vagas WHERE empresa_id = (SELECT id FROM empresas WHERE cnpj = ?)";
         String sqlEmpresa = "DELETE FROM empresas WHERE cnpj = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        try (Connection connection = DatabaseConnectionFactory.getConnection()) {
             connection.setAutoCommit(false);
             try (PreparedStatement stmtVagas = connection.prepareStatement(sqlVagas)) {
                 stmtVagas.setString(1, cnpj);

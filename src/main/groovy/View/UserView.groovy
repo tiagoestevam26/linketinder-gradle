@@ -7,7 +7,7 @@ class UserView {
 
     static void telaCandidato(Scanner scanner, Boolean foiCurtido){
         println "\n♡LISTA DE VAGAS♡:"
-        JobDAO.listarTodos().each { job->
+        JobDAO.getInstance().listarTodos().each { job->
             if(foiCurtido){
                 print(job.toString())
                 println "\n1 - Curtir - ♡"
@@ -35,7 +35,7 @@ class UserView {
 
     static void telaEmpresa(Scanner scanner, Boolean foiCurtido){
         println "\n♡LISTA DE CANDIDATOS♡:"
-        CandidateDAO.listarTodos().each { candidate->
+        CandidateDAO.getInstance().listarTodos().each { candidate->
             if(foiCurtido){
                 print(candidate.toString())
                 println "\n1 - Curtir - ♡"

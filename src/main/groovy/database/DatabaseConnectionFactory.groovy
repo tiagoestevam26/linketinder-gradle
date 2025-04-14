@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class DatabaseConnection {
+class DatabaseConnectionFactory {
     private static final String URL = "jdbc:postgresql://localhost:5432/linketinder"
     private static final String USER = "geek"
     private static final String PASSWORD = "senha"

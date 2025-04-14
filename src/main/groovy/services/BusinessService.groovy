@@ -7,7 +7,7 @@ class BusinessService {
     List<Business> businesses = []
 
     static void addBusiness(Business buss){
-        BusinessDAO.salvar(buss)
+        BusinessDAO.getInstance().salvar(buss)
     }
 
 }

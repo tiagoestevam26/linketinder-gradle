@@ -8,7 +8,7 @@ class JobService {
 
     void addJob(Job job, int id) {
         jobs << job
-        JobDAO.salvar(job, id)
+        JobDAO.getInstance().salvar(job, id)
     }
 
 }

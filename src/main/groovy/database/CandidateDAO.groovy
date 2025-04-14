@@ -4,10 +4,18 @@ package database
 import models.Candidate
 import java.sql.*
 
-class CandidateDAO {
+class CandidateDAO{
 
-    static void salvar(Candidate candidato) {
-        Connection conn = DatabaseConnection.getConnection()
+    private static final CandidateDAO instance = new CandidateDAO()
+
+    private CandidateDAO() {} // Construtor privado
+
+    static CandidateDAO getInstance() {
+        return instance
+    }
+
+    void salvar(Candidate candidato) {
+        Connection conn = DatabaseConnectionFactory.getConnection()
         String sql = "INSERT INTO candidatos (nome, data_nascimento, email, cpf, pais, cep, descricao, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         PreparedStatement stmt = conn.prepareStatement(sql)
 
@@ -25,9 +33,9 @@ class CandidateDAO {
         conn.close()
     }
 
-    static List<Candidate> listarTodos() {
+    List<Candidate> listarTodos() {
         List<Candidate> candidates = new ArrayList<>();
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM candidatos")) {
             while (rs.next()) {
@@ -46,9 +54,9 @@ class CandidateDAO {
         return candidates;
     }
 
-    static void deletar(String cpf) {
+    void deletar(String cpf) {
         String sql = "DELETE FROM candidatos WHERE cpf = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, cpf);

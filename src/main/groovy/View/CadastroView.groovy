@@ -103,7 +103,7 @@ class CadastroView {
 
             Competence competence = new Competence(nomeCompetencia)
             candidato.addCompetence(competence)
-            CompetenceDAO.salvar(competence)
+            CompetenceDAO.getInstance().salvar(competence)
         }
     }
 

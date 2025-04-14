@@ -6,9 +6,19 @@ import java.sql.*
 
 class JobDAO {
 
-    static void salvar(Job job, int empresaId) throws SQLException {
+
+    private static final JobDAO instance = new JobDAO()
+
+    private JobDAO() {} // Construtor privado
+
+    static JobDAO getInstance() {
+        return instance
+    }
+
+
+    void salvar(Job job, int empresaId) throws SQLException {
         String sql = "INSERT INTO vagas (empresa_id, nome, descricao, local) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, empresaId);
             stmt.setString(2, job.getTitle());
@@ -18,10 +28,10 @@ class JobDAO {
         }
     }
 
-    static List<Job> listarTodos() throws SQLException {
+    List<Job> listarTodos() throws SQLException {
         List<Job> jobs = new ArrayList<>();
         String sql = "SELECT * FROM vagas";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -38,7 +48,7 @@ class JobDAO {
 
     static int findIdByName(String jobName) throws SQLException {
         String sql = "SELECT id FROM vagas WHERE nome = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, jobName);
@@ -51,9 +61,9 @@ class JobDAO {
         throw new SQLException("Vaga não encontrada para o nome: " + jobName);
     }
 
-    static void deletar(int id) throws SQLException {
+    void deletar(int id) throws SQLException {
         String sql = "DELETE FROM vagas WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
