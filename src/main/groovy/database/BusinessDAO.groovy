@@ -104,4 +104,28 @@ class BusinessDAO{
         }
     }
 
+    Business buscarPorCNPJ(String cnpj) throws SQLException {
+        String sql = "SELECT * FROM empresas WHERE cnpj = ?";
+        try (Connection connection = DatabaseConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, cnpj);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Business(
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("cnpj"),
+                        rs.getString("pais"),
+                        rs.getString("cep"),
+                        rs.getString("descricao"),
+                        rs.getString("senha")
+                );
+            }
+        }
+        return null;
+    }
+
+
 }

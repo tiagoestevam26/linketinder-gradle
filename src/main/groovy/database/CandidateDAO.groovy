@@ -69,4 +69,33 @@ class CandidateDAO{
             e.printStackTrace();
         }
     }
+    Candidate buscarPorCPF(String cpf) {
+        String sql = "SELECT * FROM candidatos WHERE cpf = ?";
+        try (Connection conn = DatabaseConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cpf);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Candidate(
+                        rs.getString("nome"),
+                        rs.getDate("data_nascimento"),
+                        rs.getString("email"),
+                        rs.getString("cpf"),
+                        rs.getString("pais"),
+                        rs.getString("cep"),
+                        rs.getString("descricao"),
+                        rs.getString("senha")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
+
+

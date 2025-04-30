@@ -18,4 +18,20 @@ class Business implements Person{
         openJobs << job
     }
 
+    @Override
+    String toString() {
+        return """\
+======== Empresa ========
+Nome       : $name
+Email      : $email
+CNPJ       : $CNPJ
+País       : $country
+CEP        : $cep
+Descrição  : $description
+Vagas Abertas: ${openJobs.size()}
+=========================
+"""
+    }
+
+
 }
